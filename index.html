@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Liebherr Maintenance</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+    }
+
+    /* Header bar */
+    .header {
+      background: #2a5298; /* corporate blue */
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Login form container */
+    .login-container {
+      max-width: 400px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2a5298;
+    }
+
+    .login-container label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background: #2a5298;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .login-container button:hover {
+      background: #1e3d73;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Professional Header -->
+  <div class="header">
+    Liebherr Maintenance
+  </div>
+
+<form id="loginForm">
+  <label>Username</label>
+  <input type="text" id="username" required>
+
+  <label>Password</label>
+  <input type="password" id="password" required>
+
+  <button type="submit">Login</button>
+</form>
+
+<div id="error" style="color:red; margin-top:10px;"></div>
+
+<script src="login.js"></script>
+
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Example login logic
+      const users = JSON.parse(localStorage.getItem("users")) || {};
+      if (users[username] && users[username].password === password) {
+        localStorage.setItem("loggedUser", username);
+        window.location.href = "home.html"; // redirect to dashboard
+      } else {
+        alert("Invalid username or password!");
+      }
+    });
+  </script>
+
+</body>
+</html>

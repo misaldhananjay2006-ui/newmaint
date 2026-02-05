@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f4f6f9;
+}
+
+.navbar {
+  background: #2c3e50;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.navbar button {
+  background: #1abc9c;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.navbar button:hover {
+  background: #16a085;
+}
+
+.main-content {
+  padding: 30px;
+}
+
+h1, h2 {
+  color: #2c3e50;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+
+button.progress-btn {
+  background-color: #f39c12;
+  color: #fff;
+}
+
+button.complete-btn {
+  background-color: #27ae60;
+  color: #fff;
+}
+
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+

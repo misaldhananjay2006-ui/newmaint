@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Material Records</title>
+</head>
+<body>
+
+<h2>Material Requests</h2>
+<ul id="records"></ul>
+
+<script>
+const records = JSON.parse(localStorage.getItem("materialRequests")) || [];
+const list = document.getElementById("records");
+
+records.forEach(r => {
+  const li = document.createElement("li");
+  li.innerText = `${r.date} - ${r.username} requested ${r.quantity} ${r.material} (${r.urgency})`;
+  list.appendChild(li);
+});
+</script>
+
+</body>
+</html>
+
+

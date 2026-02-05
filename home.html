@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; background:#f4f6f9; margin:0; }
+    .navbar { background:#2a5298; padding:10px; display:flex; align-items:center; }
+    .navbar button { background:#fff; border:none; margin-right:10px; padding:8px 12px; border-radius:4px; cursor:pointer; }
+    .navbar button:hover { background:#ddd; }
+    .profile { color:#fff; cursor:pointer; font-weight:bold; }
+    .dropdown { display:none; position:absolute; right:0; top:40px; background:#fff; border:1px solid #ccc; border-radius:6px; padding:10px; z-index:1000; }
+    .main-content { padding:40px; text-align:center; }
+    h1 { color:#2a5298; font-size:32px; margin-bottom:10px; }
+    p { font-size:18px; color:#333; }
+
+    /* Image grid */
+    .dept-section {
+      margin-top: 30px;
+    }
+    .dept-grid {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .dept-grid img {
+      width: 220px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .dept-grid img:hover {
+      transform: scale(1.05);
+    }
+    .dept-caption {
+      margin-top: 8px;
+      font-weight: bold;
+      color: #2a5298;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <button onclick="navigate('home.html')">Dashboard</button>
+    <button onclick="navigate('pending.html')">Pending Works</button>
+    <button onclick="navigate('completed.html')">Completed Works</button>
+    <button onclick="navigate('material.html')">Material Requirements</button>
+    <button onclick="navigate('report.html')">Daily Report</button>
+    <button onclick="navigate('admin.html')">Admin Panel</button>
+
+    <div class="profile" id="profile" style="margin-left:auto;position:relative;">
+      <span id="usernameDisplay"></span>
+      <div class="dropdown" id="dropdownMenu">
+        <button onclick="logout()">Logout</button><br>
+        <button onclick="changePassword()">Change Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>Welcome To Liebherr Maintenance</h1>
+    <p><strong>Today's Date:</strong> <span id="liveDate"></span></p>
+
+
+
+  <script>
+    const loggedUser = localStorage.getItem("loggedUser");
+    document.getElementById("usernameDisplay").textContent = loggedUser || "Guest";
+
+    // Live date
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("liveDate").textContent = today;
+
+    
+
+    // Dropdown toggle
+    document.getElementById("profile").addEventListener("click", (e) => {
+      e.stopPropagation();
+      const menu = document.getElementById("dropdownMenu");
+      menu.style.display = menu.style.display === "none" ? "block" : "none";
+    });
+    document.addEventListener("click", () => {
+      document.getElementById("dropdownMenu").style.display = "none";
+    });
+
+    function logout() { localStorage.removeItem("loggedUser"); window.location.href = "login.html"; }
+    function changePassword() {
+      const users = JSON.parse(localStorage.getItem("users")) || {};
+      const newPass = prompt("Enter new password:");
+      if (newPass) {
+        users[loggedUser].password = newPass;
+        localStorage.setItem("users", JSON.stringify(users));
+        alert("Password updated!");
+      }
+    }
+    function navigate(page) { window.location.href = page; }
+  </script>
+</body>
+</html>
+
+

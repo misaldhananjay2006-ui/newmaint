@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Today's Work</title>
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+    <ul>
+      <li onclick="navigate('home.html')">Dashboard</li>
+      <li onclick="navigate('pending.html')">Pending Works</li>
+      <li onclick="navigate('completed.html')">Completed Works</li>
+      <li onclick="navigate('today.html')">Today's Work</li>
+      <li onclick="navigate('material.html')">Material Requirements</li>
+      <li onclick="navigate('report.html')">Daily Report</li>
+      <li onclick="navigate('admin.html')">Admin Panel</li>
+      <li onclick="logout()">Logout</li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>Today's Work</h2>
+    <p>Here you can view and manage all maintenance tasks scheduled for today.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Task ID</th>
+          <th>Machine/Area</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Assigned To</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Demo rows -->
+        <tr>
+          <td>101</td>
+          <td>Boiler Room</td>
+          <td>Check pressure valves</td>
+          <td>Pending</td>
+          <td>Ram Jadhav</td>
+          <td><button onclick="alert('Task marked as completed!')">Mark Completed</button></td>
+        </tr>
+        <tr>
+          <td>102</td>
+          <td>Assembly Line</td>
+          <td>Lubricate conveyor belt</td>
+          <td>In Progress</td>
+          <td>Ravi Kirangadhe</td>
+          <td><button onclick="alert('Task marked as completed!')">Mark Completed</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="src/sidebar.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Report</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; background:#f4f6f9; margin:0; }
+    .navbar { background:#2a5298; padding:10px; display:flex; align-items:center; }
+    .navbar button { background:#fff; border:none; margin-right:10px; padding:8px 12px; border-radius:4px; cursor:pointer; }
+    .navbar button:hover { background:#ddd; }
+    .profile { color:#fff; cursor:pointer; font-weight:bold; }
+    .dropdown { display:none; position:absolute; right:0; top:40px; background:#fff; border:1px solid #ccc; border-radius:6px; padding:10px; z-index:1000; }
+    .main-content { padding:20px; }
+    table { width:100%; border-collapse:collapse; margin-top:15px; }
+    table, th, td { border:1px solid #ccc; }
+    th, td { padding:8px; text-align:left; }
+    th { background:#eee; }
+    button.remove-btn { background:#e74c3c; color:#fff; border:none; padding:6px 10px; border-radius:4px; cursor:pointer; }
+    button.remove-btn:hover { background:#c0392b; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <button onclick="navigate('home.html')">Dashboard</button>
+    <button onclick="navigate('pending.html')">Pending Works</button>
+    <button onclick="navigate('completed.html')">Completed Works</button>
+    <button onclick="navigate('material.html')">Material Requirements</button>
+    <button onclick="navigate('report.html')">Daily Report</button>
+    <button onclick="navigate('admin.html')">Admin Panel</button>
+
+    <div class="profile" id="profile" style="margin-left:auto;position:relative;">
+      <span id="usernameDisplay"></span>
+      <div class="dropdown" id="dropdownMenu">
+        <button onclick="logout()">Logout</button><br>
+        <button onclick="changePassword()">Change Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>Daily Reports</h2>
+    <p><strong>Today's Date:</strong> <span id="liveDate"></span></p>
+
+    <!-- Data Entry Form -->
+    <form id="reportForm">
+      <label>Report Title:</label><br>
+      <input type="text" id="repTitle" required><br><br>
+
+      <label>Description:</label><br>
+      <textarea id="repDesc" required></textarea><br><br>
+
+      <label>Submitted By:</label><br>
+      <input type="text" id="repBy" required><br><br>
+
+      <button type="submit">Add Report</button>
+    </form>
+
+    <!-- Table -->
+    <table id="report-table">
+      <thead>
+        <tr>
+          <th>Report Title</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Submitted By</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const loggedUser = localStorage.getItem("loggedUser");
+    document.getElementById("usernameDisplay").textContent = loggedUser || "Guest";
+
+    // Live date
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("liveDate").textContent = today;
+
+    // Dropdown toggle
+    document.getElementById("profile").addEventListener("click", (e) => {
+      e.stopPropagation();
+      const menu = document.getElementById("dropdownMenu");
+      menu.style.display = menu.style.display === "none" ? "block" : "none";
+    });
+    document.addEventListener("click", () => {
+      document.getElementById("dropdownMenu").style.display = "none";
+    });
+
+    function logout() { localStorage.removeItem("loggedUser"); window.location.href = "login.html"; }
+    function changePassword() {
+      const users = JSON.parse(localStorage.getItem("users")) || {};
+      const newPass = prompt("Enter new password:");
+      if (newPass) {
+        users[loggedUser].password = newPass;
+        localStorage.setItem("users", JSON.stringify(users));
+        alert("Password updated!");
+      }
+    }
+    function navigate(page) { window.location.href = page; }
+
+    // Load reports
+    let reports = JSON.parse(localStorage.getItem("dailyReports")) || [];
+    const tbody = document.querySelector("#report-table tbody");
+
+    function renderReports() {
+      tbody.innerHTML = "";
+      if (reports.length === 0) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td colspan="5" style="text-align:center;color:#888;">No daily reports</td>`;
+        tbody.appendChild(row);
+      } else {
+        reports.forEach((report, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${report.title}</td>
+            <td>${report.description}</td>
+            <td>${report.date}</td>
+            <td>${report.submittedBy}</td>
+            <td>${loggedUser === "dhanumisal" 
+                  ? `<button class="remove-btn" onclick="removeReport(${index})">Remove</button>` 
+                  : `<span style="color:#888;">Only admin can remove</span>`}
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+    }
+    renderReports();
+
+    // Add new report
+    document.getElementById("reportForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const newReport = {
+        title: document.getElementById("repTitle").value,
+        description: document.getElementById("repDesc").value,
+        date: today,
+        submittedBy: document.getElementById("repBy").value
+      };
+      reports.push(newReport);
+      localStorage.setItem("dailyReports", JSON.stringify(reports));
+      this.reset();
+      renderReports();
+    });
+
+    // Remove report (admin only)
+    function removeReport(index) {
+      if (loggedUser !== "dhanumisal") {
+        alert("Access denied! Only admin can remove daily reports.");
+        return;
+      }
+      if (confirm("Are you sure you want to remove this report?")) {
+        reports.splice(index, 1);
+        localStorage.setItem("dailyReports", JSON.stringify(reports));
+        renderReports();
+      }
+    }
+  </script>
+</body>
+</html>
