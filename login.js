@@ -29,11 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (users[username] && users[username] === password) {
       localStorage.setItem("loggedUser", username);
-      window.location.href = "home.html"; // ✅ redirect
+      // ✅ Redirect only if correct
+      window.location.href = "home.html";
     } else {
+      // ✅ Show error, no redirect
       errorDiv.textContent = "Invalid username or password!";
+      errorDiv.style.color = "red";
     }
   });
 });
-
-
