@@ -1,5 +1,3 @@
-// login.js
-
 // Allowed credentials
 const users = {
   "ramjadhav": "Ram123",
@@ -29,12 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (users[username] && users[username] === password) {
       localStorage.setItem("loggedUser", username);
-      // ✅ Redirect only if correct
-      window.location.href = "home.html";
+      window.location.href = "home.html"; // ✅ redirect only if correct
     } else {
-      // ✅ Show error, no redirect
       errorDiv.textContent = "Invalid username or password!";
-      errorDiv.style.color = "red";
     }
   });
 });
