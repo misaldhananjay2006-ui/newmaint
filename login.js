@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (users[username] && users[username] === password) {
       localStorage.setItem("loggedUser", username);
-      window.location.href = "index.html"; // ✅ redirect only if correct
+      window.location.href = "home.html"; // ✅ redirect only if correct
     } else {
       errorDiv.textContent = "Invalid username or password!";
     }
