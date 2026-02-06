@@ -88,7 +88,7 @@
       document.getElementById("dropdownMenu").style.display = "none";
     });
 
-    function logout() { localStorage.removeItem("loggedUser"); window.location.href = "login.html"; }
+    function logout() { localStorage.removeItem("loggedUser"); window.location.href = "index.html"; }
     function changePassword() {
       const users = JSON.parse(localStorage.getItem("users")) || {};
       const newPass = prompt("Enter new password:");
